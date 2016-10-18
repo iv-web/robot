@@ -1,0 +1,385 @@
+<!DOCTYPE html>
+<html lang="zh_CN">
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+    <meta name="format-detection" content="telephone=no">
+    <title>robot</title>
+    <style>
+    * {font-family: '微软雅黑', arial, sans-serif; padding: 0; margin: 0;}
+    ul, li {list-style: none;}
+    h2 {width: 616px; margin-left: 100px; margin-top: 100px;}
+    ul {width: 616px; margin-left: 60px; margin-top: 50px; }
+    li {line-height: 1.2; text-align: left; margin-bottom: 23px;}
+    .title { white-space: nowrap; font-size: 18px; font-weight: normal; }
+    .title a {text-decoration: none; cursor: pointer; color: #1a0dab; }
+    .desc {line-height: 18px; color: #545454; font-size: 13px; margin-top: 5px;}
+    </style>
+  </head>
+  <body>
+    <ul>
+     
+      <li>
+        <p class="title"><a target='_blank' href='http://www.ruanyifeng.com/blog/2016/10/online_education.html'>网络文凭，你要不要</a></p>
+        <p class="desc">（说明：本文原载2016年第35期。）
+
+        1.
+
+我一直相信，互联网教育是未来的方向。美国三个主要的在线教育网站--------我都经常访问。
+
+今年四月，Udacity 进入中国，推出了中文版。
+
+
+
+
+  &#34;纳米学位（Nanodegree）是优达学城此前与 Google、Facebook、亚马逊等互联网公司联合推出的学历认证项目。学员在线学习，所有项目考核合格之后即可获得纳米学位。&#34;
+
+
+现在总共有12种纳米学位，包括机器学习、无人驾驶车开发、VR 开发这样非常前沿的领域。
+
+
+
+官网：
+
+
+  &#34;我们没有严格意义上的录取流程，对报名者唯一的要求是学习该纳米学位项目所必须的</p>
+      </li>
+      
+      <li>
+        <p class="title"><a target='_blank' href='http://www.ruanyifeng.com/blog/2016/10/npm_scripts.html'>npm scripts 使用指南</a></p>
+        <p class="desc">Node 开发离不开 npm，而脚本功能是 npm 最强大、最常用的功能之一。
+
+        本文介绍如何使用 npm 脚本（npm scripts）。
+
+
+
+一、什么是 npm 脚本？
+
+npm 允许在package.json文件里面，使用scripts字段定义脚本命令。
+
+
+{
+  // ...
+  &#34;scripts&#34;: {
+    &#34;build&#34;: &#34;node build.js&#34;
+  }
+}
+
+
+上面代码是package.json文件的一个片段，里面的scripts字段是一个对象。它的每一个属性，对应一段脚本。比如，build命令对应的脚本是node build.js。
+
+命令行下使</p>
+      </li>
+      
+      <li>
+        <p class="title"><a target='_blank' href='http://www.ruanyifeng.com/blog/2016/09/react-technology-stack.html'>React 技术栈系列教程</a></p>
+        <p class="desc">上周中秋节，我待在家里，写完了  教程。
+
+        至此，《React 技术栈系列教程》算是比较完整了。
+
+
+
+
+  
+ES6 语法：
+Babel：
+React：
+Webpack：
+React 项目脚手架：
+Flex 布局：
+CSS Modules：
+React-Router：
+Flux 架构：
+Redux 架构：
+Mocha 测试框架：
+Istanbul 覆盖率框架：
+React 单元测试：
+
+
+
+它们都针对初学者，尽量通俗易懂，帮大家节省一些看文档的时间，让你快速上手。其中，也有 2000 颗星了。
+
+
+
+这两年没停过，一直在学习新东西，学习心得就写成了上面的教程。虽然看上去数量不</p>
+      </li>
+      
+      <li>
+        <p class="title"><a target='_blank' href='http://www.ruanyifeng.com/blog/2016/09/redux_tutorial_part_three_react-redux.html'>Redux 入门教程（三）：React-Redux 的用法</a></p>
+        <p class="desc">前两篇教程介绍了 Redux 的，今天是最后一部分，介绍如何在 React 项目中使用 Redux。
+
+        为了方便使用，Redux 的作者封装了一个 React 专用的库 ，本文主要介绍它。
+
+这个库是可以选用的。实际项目中，你应该权衡一下，是直接使用 Redux，还是使用 React-Redux。后者虽然提供了便利，但是需要掌握额外的 API，并且要遵守它的组件拆分规范。
+
+
+
+一、UI 组件
+
+React-Redux 将所有组件分成两大类：UI 组件（presentational component）和容器组件（container component）。
+
+UI 组件有以下几</p>
+      </li>
+      
+      <li>
+        <p class="title"><a target='_blank' href='http://www.ruanyifeng.com/blog/2016/09/redux_tutorial_part_two_async_operations.html'>Redux 入门教程（二）：中间件与异步操作</a></p>
+        <p class="desc">，我介绍了 Redux 的基本做法：用户发出 Action，Reducer 函数算出新的 State，View 重新渲染。
+
+        
+
+但是，一个关键问题没有解决：异步操作怎么办？Action 发出以后，Reducer 立即算出 State，这叫做同步；Action 发出以后，过一段时间再执行 Reducer，这就是异步。
+
+怎么才能 Reducer 在异步操作结束后自动执行呢？这就要用到新的工具：中间件（middleware）。
+
+
+
+一、中间件的概念
+
+为了理解中间件，让我们站在框架作者的角度思考问题：如果要添加功能，你会在哪个环节添加？
+
+
+  （1）Reducer：纯函数，只</p>
+      </li>
+      
+      <li>
+        <p class="title"><a target='_blank' href='http://www.ruanyifeng.com/blog/2016/09/redux_tutorial_part_one_basic_usages.html'>Redux 入门教程（一）：基本用法</a></p>
+        <p class="desc">一年半前，我写了，介绍了 React 的基本用法。
+
+        但是，React 只是 DOM 的一个抽象层，并不是 Web 应用的完整解决方案。也就是说，只用 React 没法写大型应用。
+
+为了解决这个问题，2014年 Facebook 提出了  出现，将 Flux 与函数式编程结合一起，很短时间内就成为了最热门的前端架构。
+
+本文详细介绍 Redux 架构，由于内容较多，全文分成三个部分。今天是第一部分，介绍基本概念和用法。
+
+
+
+零、你可能不需要 Redux
+
+首先明确一点，Redux 是一个有用的架构，但不是非用不可。事实上，大多数情况，你可以不用它，只用 React 就够了。</p>
+      </li>
+      
+      <li>
+        <p class="title"><a target='_blank' href='http://www.ruanyifeng.com/blog/2016/09/csp.html'>Content Security Policy 入门教程</a></p>
+        <p class="desc">跨域脚本攻击  是最常见、危害最大的网页安全漏洞。
+
+        
+
+为了防止它们，要采取很多编程措施，非常麻烦。很多人提出，能不能根本上解决问题，浏览器自动禁止外部注入恶意脚本？
+
+这就是&#34;网页安全政策&#34;（Content Security Policy，缩写 CSP）的来历。本文详细介绍如何使用 CSP 防止 XSS 攻击。
+
+
+
+一、简介
+
+CSP 的实质就是白名单制度，开发者明确告诉客户端，哪些外部资源可以加载和执行，等同于提供白名单。它的实现和执行全部由浏览器完成，开发者只需提供配置。
+
+CSP 大大增强了网页的安全性。攻击者即使发现了漏洞，也没法注入脚本，除非还控制了一台列入了白</p>
+      </li>
+      
+      <li>
+        <p class="title"><a target='_blank' href='http://www.ruanyifeng.com/blog/2016/09/how_amazon_take_soa.html'>亚马逊如何变成 SOA（面向服务的架构）？</a></p>
+        <p class="desc">，我摘录了《程序员的呐喊》。这本书有趣的内容太多，今天再摘录一段。
+
+        1、 
+
+亚马逊公司不仅是世界最大的网络书店，还是世界最大的云服务商。它是怎么实现从电商到云商的转变呢？
+
+
+
+一切都是CEO杰夫·贝索斯促成的，他对市场有着超乎常人的理解和预见。
+
+2、
+
+2000年前后，贝索斯有一次在员工大会上提到，各种办公工具、书籍、影音制品都可以数字化，所以也意味着很容易盗版。数字产品可能会利润越来越低，很快就不再产生任何收入了。
+
+所有的民用工业品也都很不妙，服装和电子消费品的消费周期越来越短。连烤炉这种东西，也没人想要去年的型号。总之，卖这些东西，看上去也不太会赚大钱。
+
+亚马逊</p>
+      </li>
+      
+      <li>
+        <p class="title"><a target='_blank' href='http://www.ruanyifeng.com/blog/2016/09/conservative_vs_liberal_programmer.html'>程序员小测试：保守派 vs 自由派</a></p>
+        <p class="desc">最近，我在阅读 Steve Yegg 的文集。
+
+        
+
+这是一本非常有趣的书，里面甚至包含了一个小测试（），区分一个程序员到底是保守派还是自由派。
+
+下面一共有十个问题，每个问题都有 A 和 B 两个选项，请选择你的答案。
+
+问题一：Bug 还没修复，软件能不能上线？
+
+（A）软件发布前，应该编写完整测试，充分调试，尽量修复所有bug。
+
+（B）不管多努力，bug 总是无法避免的，如果性质不是很严重，可以先上线，根据反馈再调试和修补。
+
+问题二：容易出错的特性，是否应该用在程序中？
+
+（A）很多语言的高级特性都是很容易出错和危险的，应该禁止用在代码里。没有这些特性我们一样可以进行</p>
+      </li>
+      
+      <li>
+        <p class="title"><a target='_blank' href='http://www.ruanyifeng.com/blog/2016/09/software-architecture.html'>软件架构入门</a></p>
+        <p class="desc">软件架构（software architecture）就是软件的基本结构。
+
+        合适的架构是软件成功的最重要因素之一。大型软件公司通常有专门的架构师职位（architect），只有资深程序员才可以担任。
+
+O&#39;Reilly 出版过一本免费的小册子）， 介绍了五种最常见的软件架构，是非常好的入门读物。我读后受益匪浅，下面就是我的笔记。
+
+
+
+一、分层架构
+
+分层架构（layered architecture）是最常见的软件架构，也是事实上的标准架构。如果你不知道要用什么架构，那就用它。
+
+这种架构将软件分成若干个水平层，每一层都有清晰的角色和分工，不需要知道其他层的细节。层与层之间</p>
+      </li>
+      
+      <li>
+        <p class="title"><a target='_blank' href='http://www.ruanyifeng.com/blog/2016/08/migrate-from-http-to-https.html'>HTTPS 升级指南</a></p>
+        <p class="desc">上一篇文章我介绍了  ，它只有在 HTTPS 环境才会生效。
+
+        为了升级到 HTTP/2 协议，必须先启用 HTTPS。如果你不了解 HTTPS 协议（学名 TLS 协议），可以参考我以前的文章。
+
+
+  
+
+
+
+
+
+
+
+本文介绍如何将一个 HTTP 网站升级到 HTTPS 。
+
+
+
+一、获取证书
+
+升级到 HTTPS 协议的第一步，就是要获得一张证书。
+
+证书是一个二进制文件，里面包含经过认证的网站公钥和一些元数据，要从经销商购买。
+
+
+  
+
+
+
+
+
+
+证书有很多类型，首先分为三种认证级别。
+
+
+
+
+  
+域名认证（Domain Validation）：最低级别认证，可以确</p>
+      </li>
+      
+      <li>
+        <p class="title"><a target='_blank' href='http://www.ruanyifeng.com/blog/2016/08/http.html'>HTTP 协议入门</a></p>
+        <p class="desc">HTTP 协议是互联网的基础协议，也是网页开发的必备知识，最新版本 HTTP/2 更是让它成为技术热点。
+
+        本文介绍 HTTP 协议的历史演变和设计思路。
+
+
+
+一、HTTP/0.9
+
+HTTP 是基于 TCP/IP 协议的。它不涉及数据包（packet）传输，主要规定了客户端和服务器之间的通信格式，默认使用80端口。
+
+最早版本是1991年发布的0.9版。该版本极其简单，只有一个命令GET。
+
+
+GET /index.html
+
+
+上面命令表示，TCP 连接（connection）建立后，客户端向服务器请求（request）网页index.html。
+
+协议规定，服务器只能回</p>
+      </li>
+      
+      <li>
+        <p class="title"><a target='_blank' href='http://www.ruanyifeng.com/blog/2016/08/useless-people.html'>那些无用的人----《人类简史》读后感</a></p>
+        <p class="desc">（说明：本文原载2016年第32期。）
+
+        1.
+
+最近，我读完了《人类简史》（中信出版社，2014）。
+
+
+
+它是以色列学者尤瓦尔·赫拉利写的畅销书，主要讲人类这个物种（即）的历史。全书最大特点就是，作者完全用自己的想法解释历史，有大量的独特观点。它不是学术著作，而是表达个人的历史观。
+
+
+
+最惊人的一个观点，大概是他对人类的前途相当悲观，认为人类可能即将灭绝。
+
+2.
+
+全书最后一章的标题，叫做《智人末日》。
+
+作者感叹道，人类社会存在了七万年，真正的大发展只是最近两三百年。但是，再过一千年，人类是否还会存在，已经很可疑了。 
+
+
+
+
+  &#34;今天，人类正在让许多物种灭绝，甚至</p>
+      </li>
+      
+      <li>
+        <p class="title"><a target='_blank' href='http://www.ruanyifeng.com/blog/2016/08/boolean-algebra.html'>布尔代数入门</a></p>
+        <p class="desc">是计算机的基础。没有它，就不会有计算机。
+
+        布尔代数发展到今天，已经非常抽象，但是它的核心思想很简单。本文帮助你理解布尔代数，以及为什么它促成了计算机的诞生。  
+
+
+
+我依据的是《编码的奥妙》的第十章。这是一本好书，强烈推荐。
+
+
+
+一、数理逻辑的起源
+
+19世纪早期，英国数学家乔治·布尔（George Boole，1815－1864）突发奇想：人的思想能不能用数学表达？
+
+此前，数学只用于计算，没有人意识到，数学还能表达人的逻辑思维。
+
+
+
+两千年来，哲学书都是用文字写的。比如，最著名的三段论：
+
+
+  所有人都是要死的， 
+苏格拉底是人， 
+ 所以，苏格拉底是要死的。
+
+</p>
+      </li>
+      
+      <li>
+        <p class="title"><a target='_blank' href='http://www.ruanyifeng.com/blog/2016/07/hen-and-front-end-engineer.html'>母鸡与前端工程师</a></p>
+        <p class="desc">（说明：本文原载2016年第29期）
+
+        1.
+
+新闻说，今年全国高校毕业生达到空前的，又赶上很多传统行业压缩产能，就业压力很大。
+
+很多曾经的&#34;明星专业&#34;，都已经就业困难。我考大学的时候，国际贸易是最热门的专业之一，大家认定这个专业容易赚钱。但是现在这个专业的毕业生，想找一份好工作会很难，上海将它列入，即最难就业的十个专业之一。
+
+
+
+但是，并非所有行业都不景气。至少有一个行业的用工需求极其旺盛，到处都是招聘广告，工作岗位是应聘者数量的好几倍，通常你都有好几家公司可以挑。每周都有朋友发来消息，能不能帮忙介绍几个人过来，我们实在是缺人啊。
+
+这个行业就叫做互联网开发。
+
+2.
+
+</p>
+      </li>
+      
+    </ul>
+  </body>
+</html>

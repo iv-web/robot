@@ -1,0 +1,20 @@
+{
+  "name": "tnpm",
+  "version": "1.0.0",
+  "description": "get-value-from-url",
+  "main": "index.js",
+  "scripts": {
+    "test": "test"
+  },
+  "keywords": [
+    "get",
+    "value",
+    "from",
+    "url"
+  ],
+  "author": "sampsonwang_at_tencent",
+  "license": "ISC",
+  "dependencies": {
+    "promise": "^7.1.1"
+  }
+}
