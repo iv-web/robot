@@ -13,8 +13,7 @@ module.exports.mail = (json) => {
   const d = new Date();
   const to = 'herbertliu;adamhe;evanjyu;fishineyuan;kevinyyang;kurtshen;lindazhu;linjianghe;linkzhu;lowenshi;sampsonwang;vienwu;willliang;zhuoyingmo;'
   const title = `【互动视频知识weekly】- ${util.format('%s-%s-%s', d.getFullYear(), d.getMonth()+1, d.getDate())}`;
-  const cc = '';
-  const html;
+  const cc = ''
 
   const _data = {
     data: json
@@ -27,8 +26,8 @@ module.exports.mail = (json) => {
         reject(err)
       }
 
-      msg.mail(to, title, str, cc);
       resolve(str)
+      msg.mail(to, title, str, cc);
     })
   })
 

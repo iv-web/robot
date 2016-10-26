@@ -1,13 +1,15 @@
 
 
 const path = require('path')
-const local = require('./lib/robot-local')
-const parse = require('./lib/robot-parse-rss')
-const mail = require('./lib/robot-mail')
+const local = require(__dirname + '/lib/robot-local')
+const parse = require(__dirname + '/lib/robot-parse-rss')
+const mail = require(__dirname + '/lib/robot-mail')
+const fs = require('fs');
 
 const tmp_db_path = path.resolve(__dirname, '../db/rss');
 const origin_file = path.resolve(__dirname, '../db/rss/origin');
 const mail_file = path.resolve(__dirname, '../db/rss/mail_file.html');
+
 
 var done_arr = [];
 
@@ -32,6 +34,15 @@ function start () {
   console.log('robot starting...');
   console.log(new Date());
 
+  
+  try {
+    fs.statSync(path.resolve(__dirname, '../db/rss'))
+  } catch (e) {
+    fs.mkdirSync(path.resolve(__dirname, '../db/'))
+    fs.mkdirSync(path.resolve(__dirname, '../db/rss'))
+    fs.writeFileSync(path.resolve(__dirname, '../db/rss/origin'))
+  }
+
   targetSites.forEach((item, index) => {
 
     const mpath = path.resolve(tmp_db_path, String(index));
@@ -49,7 +60,7 @@ function start () {
     var timeout = setTimeout(() => {
       clearTimeout(intervalue)
       resolve(true)
-    }, 60e3)
+    }, 10e3)
     var intervalue = setInterval(() => {
       if (done_arr.length == targetSites.length) {
         resolve(true);
@@ -70,6 +81,8 @@ function start () {
   })
   
   function merger() {
+    debugger;
+    console.log('done_arr length: ' + done_arr.length)
     done_arr.forEach(item => {
       local.diff(origin_file, path.resolve(tmp_db_path, String(item)));
     })

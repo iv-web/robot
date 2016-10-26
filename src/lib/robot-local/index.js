@@ -50,7 +50,15 @@ function _diff(originfile, addfile) {
 
 
   function getObj(filename) {
-    return JSON.parse(_read(filename) || '[]');
+    var r;
+    try {
+
+      r = JSON.parse(_read(filename) || '[]');
+    } catch(e) {
+      _save(filename, '');
+      r = [];
+    }
+    return r;
   }
   function getTitle(filename) {
     var arr = [], obj, item;
