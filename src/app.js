@@ -1,4 +1,8 @@
 
+process.env.TZ = 'Asia/Shanghai';
+
+
+global.ServerPath = __dirname;
 
 const path = require('path')
 const local = require(__dirname + '/lib/robot-local')
@@ -30,9 +34,6 @@ var done_arr = [];
 //]
 
 const targetSites = conf.get('rss_sites');
-console.log(targetSites)
-return;
-
 
 function start () {
 
@@ -99,15 +100,33 @@ function start () {
     var str = local.read(origin_file);
     var json = JSON.parse(str)
     console.log(`start send mail, json.length: ${json.length}`)
+    if (json.length <= 0) {
+      return;
+    }
     mail.mail(json).then(str => {
       local.save(mail_file, str)
       console.log('send mail success .....')
+      end();
     }).catch(err => {
 
       console.log(err)
     });
   }
+  function end() {
+    var d = new Date().toISOString().replace(/\D/g, '-').slice(0, 19);
+    console.log('copy file ....')
+    try {
+      fs.renameSync(origin_file, origin_file + '-' + d);
+      fs.renameSync(mail_file, mail_file.replace('.html', ('-' + d + '.html')))
+      fs.writeFileSync(path.resolve(origin_file), '')
+      console.log('copy file success'); 
+    } catch(e) {
+      console.log(e);
+    }
+    
+  }
 
 }
+
 start();
 

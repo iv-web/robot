@@ -13,7 +13,8 @@ const CONFFILE = __dirname + "/conf.json.db";
 const EXAMPLE_CONF_JSON = {
   mail_to: [],
   rss_sites: [],
-  rss_site_timeout: ''
+  rss_site_timeout: '',
+  backup: ''
 }
 
 module.exports = {
@@ -55,6 +56,7 @@ function _run() {
       console.log('submit data ...')
       for (var i in conf_json) {
         origin = conf_json[i];
+        if (!data[i]) continue;
         news = data[i].replace(/\s/g, '');
         if (typeof origin == 'object') {
           conf_json[i] = news.split(',');
@@ -66,7 +68,10 @@ function _run() {
       fs.writeFileSync(CONFFILE, JSON.stringify(conf_json), 'utf8');
     }
 
-    ejs.renderFile(tpl, {data: conf_json}, {}, (err, str) => {
+    ejs.renderFile(tpl, {
+      data: conf_json,
+      url: '//127.0.0.1:8890'
+    }, {}, (err, str) => {
       if (err) {
         console.log(err);
         // reject(err);

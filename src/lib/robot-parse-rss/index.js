@@ -6,6 +6,7 @@
  */
 
 var http = require('http');
+var util = require('util');
 var parser = require('parse-rss');
 var Promise = require('promise');
 
@@ -29,10 +30,15 @@ function getValueFromUrl(url, index) {
         var out = [];
 
         rss.forEach(item => {
+          var d = item.date;
+          var _date = util.format('%s-%s-%s', d.getFullYear(), d.getMonth()+1, d.getDate())
           out.push({
             title: item.title,
             desc: item.description ? item.description.replace(/<a.*<\/a>/g, '') : '',
-            link: item.link
+            link: item.link,
+            date: _date,
+            author: item.author,
+            cate: item.categories
           })
         });
 

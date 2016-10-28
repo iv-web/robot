@@ -1,9 +1,11 @@
+'use strict';
 /**
  *  local
  *
  */
 
 const fs = require('fs')
+const path = require('path')
 
 module.exports = {
   save: _save,
@@ -35,17 +37,9 @@ function _read(filename) {
 }
 
 function _diff(originfile, addfile) {
-  var origin = getTitle(originfile)
-  var add = getObj(addfile)
 
-  var newArr = [];
-  add.forEach(item => {
-    if (origin.indexOf(item.title) < 0) {
-      newArr.push(item)
-    }
-  })
-
-  _save(originfile, JSON.stringify(getObj(originfile).concat(newArr)));
+  var add = getNew(addfile)
+  _save(originfile, JSON.stringify(getObj(originfile).concat(add)));
   console.log(`diff originfile and ${addfile} success ....`)
 
 
@@ -53,22 +47,46 @@ function _diff(originfile, addfile) {
     var r;
     try {
 
+      console.log('start JSON.parse ..')
       r = JSON.parse(_read(filename) || '[]');
     } catch(e) {
+      console.log('JSON.parse error')
       _save(filename, '');
       r = [];
     }
     return r;
   }
-  function getTitle(filename) {
-    var arr = [], obj, item;
+  function getNew(filename) {
+    let arr = [], obj, titlesStr, titlesObj, newAdd = [];
+    let titlesPath = path.resolve(global.ServerPath, '../db/rss/titles');
     obj = getObj(filename);
-    for(var i in obj) {
-      item = obj[i];
-     
-      arr.push(item.title);
-      
+
+    try {
+      fs.statSync(titlesPath);  
+    } catch(e) {
+      _save(titlesPath, '')
     }
-    return arr;
+
+    titlesStr = _read(titlesPath);
+    
+    try {
+      titlesObj = JSON.parse(titlesStr);
+    } catch (e) {
+      titlesObj = [];
+    }
+
+    if (titlesObj) {
+      obj.forEach(item => {
+        //console.log(item.title)
+        if (titlesObj.indexOf(item.title) < 0) {
+          titlesObj.push(item.title);
+          newAdd.push(item)
+        }
+      })
+
+      _save(titlesPath, titlesObj);
+    }
+    
+    return newAdd;
   }
 }
