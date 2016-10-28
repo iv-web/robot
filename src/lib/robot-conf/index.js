@@ -1,4 +1,4 @@
-
+'use strict';
 const ejs = require("ejs");
 const url = require("url");
 const querystring = require('querystring');
@@ -12,7 +12,8 @@ const CONFFILE = __dirname + "/conf.json.db";
 
 const EXAMPLE_CONF_JSON = {
   mail_to: [],
-  rss_sites: []
+  rss_sites: [],
+  rss_site_timeout: ''
 }
 
 module.exports = {
@@ -39,6 +40,12 @@ function _run() {
     }
 
     conf_json = JSON.parse(conf_json);
+
+    for(let i in EXAMPLE_CONF_JSON) {
+      if (!conf_json[i]) {
+        conf_json[i] = EXAMPLE_CONF_JSON[i];
+      }
+    }
 
     var data, op, origin, news;
     data = querystring.parse(url.parse(req.url).query);
@@ -86,4 +93,3 @@ function _get(name) {
   }
 }
 
-_run();

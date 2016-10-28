@@ -6,8 +6,10 @@ const path = require('path')
 const Promise = require('promise')
 const fs = require('fs')
 const tpl = path.resolve(__dirname, 'tpl/index.ejs');
+const conf = require('../robot-conf')
+var _to = conf.get('mail_to')
 
-
+console.log(_to)
 module.exports.mail = (json) => {
 
   const d = new Date();
