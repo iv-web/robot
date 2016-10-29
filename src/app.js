@@ -46,7 +46,7 @@ function start () {
   } catch (e) {
     fs.mkdirSync(path.resolve(__dirname, '../db/'))
     fs.mkdirSync(path.resolve(__dirname, '../db/rss'))
-    fs.writeFileSync(path.resolve(__dirname, '../db/rss/origin'))
+    fs.writeFileSync(origin_file, '');
   }
 
   targetSites.forEach((item, index) => {
