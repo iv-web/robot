@@ -17,14 +17,14 @@ var _to = conf.get('mail_to')
 const transporter = nodemailer.createTransport({
   service: 'qq',  
   auth: {  
-    user: '404645486@qq.com',  
-    pass: 'ercnokftpiekbhgj' //授权码,通过QQ获取  
+    user: '2580575484@qq.com',  
+    pass: 'jyqujqyyunkydjhb' //授权码,通过QQ获取  
   }  
 });
 
 // setup e-mail data with unicode symbols
 let mailOptions = {
-    from: '404645486@qq.com', // sender address
+    from: '"IVWEB" 2580575484@qq.com', // sender address
 };
 
 
@@ -33,7 +33,7 @@ module.exports.mail = (json) => {
   const d = new Date();
 
   mailOptions.to = _to;
-  mailOptions.subject = `【互动视频知识weekly】- ${util.format('%s-%s-%s', d.getFullYear(), d.getMonth()+1, d.getDate())}`;
+  mailOptions.subject = `【IVWEB WEEKLY】${util.format('%s-%s-%s', d.getFullYear(), d.getMonth()+1, d.getDate())} 最新文章`;
 
   const _data = {
     data: json
