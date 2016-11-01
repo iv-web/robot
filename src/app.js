@@ -8,6 +8,7 @@ const path = require('path')
 const local = require(__dirname + '/lib/robot-local')
 const parse = require(__dirname + '/lib/robot-parse-rss')
 const mail = require(__dirname + '/lib/robot-mail')
+const robot_sort = require(__dirname + '/lib/tools/sort.js')
 const conf = require(__dirname + '/lib/robot-conf')
 const fs = require('fs');
 
@@ -98,7 +99,11 @@ function start () {
 
   function send_mail() {
     var str = local.read(origin_file);
-    var json = JSON.parse(str)
+    var json = JSON.parse(str);
+	  json = robot_sort.sort(json);
+		process.nextTick(() => {
+			local.save(origin_file, json);
+		});
     console.log(`start send mail, json.length: ${json.length}`)
     if (json.length <= 0) {
       return;
