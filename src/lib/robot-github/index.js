@@ -22,7 +22,11 @@ exports = module.exports = class RobotGithub {
     
     this.mdStr = '';
 
-    this.gitPull = new Promise((resolve, reject) => {
+
+  }
+
+  gitPull () {
+    return new Promise((resolve, reject) => {
       this.pull((err, stdout) => {
         if (err) {
           throw err;
@@ -32,7 +36,6 @@ exports = module.exports = class RobotGithub {
         resolve(stdout);
       })
     });
-
   }
 
   sendFile (jsonfile) {
