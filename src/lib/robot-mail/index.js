@@ -10,6 +10,7 @@ const fs = require('fs')
 const tpl = path.resolve(__dirname, 'tpl/index.ejs');
 const conf = require('../robot-conf')
 var _to = conf.get('mail_to')
+var _cc = conf.get('mail_cc')
 
 
 
@@ -33,6 +34,7 @@ module.exports.mail = (json) => {
   const d = new Date();
 
   mailOptions.to = _to;
+  mailOptions.cc = _cc;
   mailOptions.subject = `【IVWEB WEEKLY】${util.format('%s-%s-%s', d.getFullYear(), d.getMonth()+1, d.getDate())} 最新文章`;
 
   const _data = {

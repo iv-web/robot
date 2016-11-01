@@ -12,6 +12,7 @@ const CONFFILE = __dirname + "/conf.json.db";
 
 const EXAMPLE_CONF_JSON = {
   mail_to: [],
+  mail_cc: [],
   rss_sites: [],
   rss_site_timeout: '',
   backup: ''
