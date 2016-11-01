@@ -55,15 +55,20 @@ exports = module.exports = class RobotGithub {
     try {
     let cd = `cd ${this.name}`;
     console.log(cd)
-    exec(cd, () => {
+    exec(cd, (e) => {
+      if (e) {console.log(e); return ; }
       let add = `git add .`;
       console.log(add)
-      exec(add , () => {
+      exec(add , (e, d) => {
+        if (e) {console.log(e); return ; }
         let commit = `git commit -m "add weekly file..."`;
         console.log(commit)
-        exec(commit , () => {
+        exec(commit , (e) => {
+          if (e) {console.log(e); return ; }
           let push = `git push`;
-          exec(push, () => {
+          console.log(push)
+          exec(push, (e) => {
+            if (e) {console.log(e); return ; }
             console.log('push success...');
           })
         })
