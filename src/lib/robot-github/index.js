@@ -18,7 +18,7 @@ exports = module.exports = class RobotGithub {
     console.log('init RobotGithub ...')
 
     this.gitUrl = gitUrl;
-    this.name = '__git__path__' + name;
+    this.name = '__git__path__' + name + '__ignore';
     
     this.mdStr = '';
 
@@ -36,16 +36,39 @@ exports = module.exports = class RobotGithub {
   }
 
   sendFile (jsonfile) {
-    this.handleJsonFile(jsonFile, str => {
-      
+
+    this.gitPull.then((ou) => {
+
       this.addFile();
       this.push();
-    });
-
-
-    Promise.promiseAll([mdFile, this.gitPull], (err, data) => {
-
+    }).catch(e => {
+      throw e;
     })
+
+
+  }
+
+  push() {
+    try {
+    let cd = `cd ${this.name}`;
+    console.log(cd)
+    exec(cd, () => {
+      let add = `git add .`;
+      console.log(add)
+      exec(add , () => {
+        let commit = `git commit -m "add weekly file..."`;
+        console.log(commit)
+        exec(commit , () => {
+          let push = `git push`;
+          exec(push, () => {
+            console.log('push success...');
+          })
+        })
+      })
+    })
+    } catch(e) {
+      throw e
+    }
   }
 
   handleJsonFile(jsonFile, callback) {
