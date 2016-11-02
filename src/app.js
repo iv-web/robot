@@ -21,6 +21,12 @@ var done_arr = [];
 
 const targetSites = conf.get('rss_sites');
 
+
+
+const d = new Date().toISOString().replace(/\D/g, '-').slice(0, 19);
+const newOriginFile = origin_file + '-' + d;
+
+
 function start () {
 
   console.log('robot starting...');
@@ -93,7 +99,7 @@ function start () {
     if (json.length <= 0) {
       return;
     }
-    mail.mail(json).then(str => {
+    mail.mail(json, newOriginFile).then(str => {
       local.save(mail_file, str)
       console.log('send mail success .....')
       end();
@@ -103,10 +109,8 @@ function start () {
     });
   }
   function end() {
-    var d = new Date().toISOString().replace(/\D/g, '-').slice(0, 19);
     console.log('copy file ....')
 	  var newHtmlFile = mail_file.replace('.html', ('-' + d + '.html'));
-    var newOriginFile = origin_file + '-' + d;
     try {
       fs.renameSync(origin_file, newOriginFile);
       fs.renameSync(mail_file, newHtmlFile)

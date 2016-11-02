@@ -1,4 +1,5 @@
 const fs = require('fs')
+const path = require('path')
 
 exports.create = (filename, createPath) => {
 
@@ -17,6 +18,7 @@ exports.create = (filename, createPath) => {
 	   p = global.ServerPath + '/lib/robot-github/__git_path_ivwebweekly_ignore/weekly/2016/' + fn + '.md';
    }
 
+   p = path.resolve(p)
 	 console.log(p);
    
    var obj = JSON.parse(data);

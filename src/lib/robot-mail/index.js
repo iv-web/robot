@@ -29,7 +29,7 @@ let mailOptions = {
 };
 
 
-module.exports.mail = (json) => {
+module.exports.mail = (json, newOriginFile) => {
 
   const d = new Date();
 
@@ -37,8 +37,10 @@ module.exports.mail = (json) => {
   mailOptions.cc = _cc;
   mailOptions.subject = `【IVWEB WEEKLY】${util.format('%s-%s-%s', d.getFullYear(), d.getMonth()+1, d.getDate())} 最新文章`;
 
+  
   const _data = {
-    data: json
+    data: json.slice(0, 5),
+    newOriginFile: 'https://github.com/iv-web/ivweb-weekly/blob/master/weekly/2016/' + newOriginFile.split(/[\/\\]/).pop() + '.md'
   }
 
   return new Promise((resolve, reject) => {

@@ -70,10 +70,9 @@ function _run(port) {
       fs.writeFileSync(CONFFILE, JSON.stringify(conf_json), 'utf8');
     }
 
-    var hostObj = url.parse(req.url);
     ejs.renderFile(tpl, {
       data: conf_json,
-      url: `${hostObj.protocol}//${hostObj.host}/`
+      url: '/'
     }, {}, (err, str) => {
       if (err) {
         console.log(err);
