@@ -5,5 +5,5 @@
 *.log
 /%*%
 *.json.db
-*__ignore/
 *.sh
+*_ignore/

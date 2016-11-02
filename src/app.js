@@ -8,6 +8,8 @@ const path = require('path')
 const local = require(__dirname + '/lib/robot-local')
 const parse = require(__dirname + '/lib/robot-parse-rss')
 const mail = require(__dirname + '/lib/robot-mail')
+const robot_sort = require(__dirname + '/lib/tools/sort.js')
+const robot_copy_github = require(__dirname + '/lib/tools/createMdFile.js')
 const conf = require(__dirname + '/lib/robot-conf')
 const fs = require('fs');
 
@@ -98,8 +100,13 @@ function start () {
 
   function send_mail() {
     var str = local.read(origin_file);
-    var json = JSON.parse(str)
+    var json = JSON.parse(str);
+	  json = robot_sort.sort(json);
+		process.nextTick(() => {
+			local.save(origin_file, json);
+		});
     console.log(`start send mail, json.length: ${json.length}`)
+
     if (json.length <= 0) {
       return;
     }
@@ -115,11 +122,14 @@ function start () {
   function end() {
     var d = new Date().toISOString().replace(/\D/g, '-').slice(0, 19);
     console.log('copy file ....')
+	  var newHtmlFile = mail_file.replace('.html', ('-' + d + '.html'));
     try {
       fs.renameSync(origin_file, origin_file + '-' + d);
-      fs.renameSync(mail_file, mail_file.replace('.html', ('-' + d + '.html')))
+      fs.renameSync(mail_file, newHtmlFile)
       fs.writeFileSync(path.resolve(origin_file), '')
       console.log('copy file success'); 
+
+			robot_copy_github.create(newHtmlFile);
     } catch(e) {
       console.log(e);
     }
