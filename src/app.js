@@ -17,23 +17,7 @@ const tmp_db_path = path.resolve(__dirname, '../db/rss');
 const origin_file = path.resolve(__dirname, '../db/rss/origin');
 const mail_file = path.resolve(__dirname, '../db/rss/mail_file.html');
 
-
 var done_arr = [];
-
-// 要抓取那些网站
-//const targetSites = [
-  //'http://www.ruanyifeng.com/blog/atom.xml',
-  //'http://geek.csdn.net/admin/news_service/rss',
-  //'http://javascriptweekly.com/rss/1gh8b434',
-  //'http://feeds.gracecode.com/gracecode/',
-  //'https://hacks.mozilla.org/feed/',
-  //'http://www.infoq.com/cn/feed',
-  //'https://cnodejs.org/rss',
-  //'http://fex.baidu.com/feed.xml',
-  //'https://www.smashingmagazine.com/feed/',
-  //'http://feed.cnblogs.com/blog/u/90635/rss',
-  //'http://gold.xitu.io/rss'
-//]
 
 const targetSites = conf.get('rss_sites');
 
@@ -41,7 +25,6 @@ function start () {
 
   console.log('robot starting...');
   console.log(new Date());
-
   
   try {
     fs.statSync(path.resolve(__dirname, '../db/rss'))

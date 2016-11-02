@@ -10,6 +10,7 @@ const http = require('http')
 
 const CONFFILE = __dirname + "/conf.json.db";
 
+
 const EXAMPLE_CONF_JSON = {
   mail_to: [],
   mail_cc: [],
@@ -23,7 +24,7 @@ module.exports = {
   get: _get
 }
 
-function _run() {
+function _run(port) {
 
   http.createServer((req, res) => {
     let html = "";
@@ -69,9 +70,10 @@ function _run() {
       fs.writeFileSync(CONFFILE, JSON.stringify(conf_json), 'utf8');
     }
 
+    var hostObj = url.parse(req.url);
     ejs.renderFile(tpl, {
       data: conf_json,
-      url: '//127.0.0.1:8890'
+      url: `${hostObj.protocol}//${hostObj.host}/`
     }, {}, (err, str) => {
       if (err) {
         console.log(err);
@@ -83,9 +85,9 @@ function _run() {
     })
 
 
-  }).listen(8890);
+  }).listen(port);
 
-  console.log('setting page run at port: 8890....');
+  console.log('setting page run at port: ' + port + '....');
 }
 
 function _get(name) {
