@@ -123,13 +123,14 @@ function start () {
     var d = new Date().toISOString().replace(/\D/g, '-').slice(0, 19);
     console.log('copy file ....')
 	  var newHtmlFile = mail_file.replace('.html', ('-' + d + '.html'));
+    var newOriginFile = origin_file + '-' + d;
     try {
-      fs.renameSync(origin_file, origin_file + '-' + d);
+      fs.renameSync(origin_file, newOriginFile);
       fs.renameSync(mail_file, newHtmlFile)
       fs.writeFileSync(path.resolve(origin_file), '')
       console.log('copy file success'); 
 
-			robot_copy_github.create(newHtmlFile);
+			robot_copy_github.create(newOriginFile);
     } catch(e) {
       console.log(e);
     }
