@@ -1,7 +1,7 @@
 const fs = require('fs')
 const path = require('path')
 
-exports.create = (filename, createPath) => {
+exports.create = (filename, createPath, github_filename) => {
 
  fs.readFile(filename, 'utf8', (err, data) => {
 	 if (err) {
@@ -15,7 +15,7 @@ exports.create = (filename, createPath) => {
    if (createPath) {
      p = createPath + '/' + fn + '.md';
    } else {
-	   p = global.ServerPath + '/lib/robot-github/__git_path_ivwebweekly_ignore/weekly/2016/' + fn + '.md';
+	   p = global.ServerPath + '/lib/robot-github/__git_path_ivwebweekly_ignore/weekly/2016/' + github_filename + '.md';
    }
 
    p = path.resolve(p)

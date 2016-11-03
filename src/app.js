@@ -25,12 +25,16 @@ const targetSites = conf.get('rss_sites');
 
 const d = new Date().toISOString().replace(/\D/g, '-').slice(0, 19);
 const newOriginFile = origin_file + '-' + d;
+// IVWEB WEEKLY-20161102.md
+makeWeekDir(d);
+const github_filename = 'IVWEB_WEEKL'+ '-' + d.replace(/\-/g, '').slice(0, 8);
 
 
 function start () {
 
   console.log('robot starting...');
   console.log(new Date());
+  //return;
   
   try {
     fs.statSync(path.resolve(__dirname, '../db/rss'))
@@ -99,7 +103,7 @@ function start () {
     if (json.length <= 0) {
       return;
     }
-    mail.mail(json, newOriginFile).then(str => {
+    mail.mail(json, newOriginFile, github_filename).then(str => {
       local.save(mail_file, str)
       console.log('send mail success .....')
       end();
@@ -117,12 +121,16 @@ function start () {
       fs.writeFileSync(path.resolve(origin_file), '')
       console.log('copy file success'); 
 
-			robot_copy_github.create(newOriginFile);
+			robot_copy_github.create(newOriginFile, null, github_filename);
     } catch(e) {
       console.log(e);
     }
     
   }
+
+}
+
+function makeWeekDir(d) {
 
 }
 

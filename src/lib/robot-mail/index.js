@@ -29,7 +29,7 @@ let mailOptions = {
 };
 
 
-module.exports.mail = (json, newOriginFile) => {
+module.exports.mail = (json, newOriginFile, github_filename) => {
 
   const d = new Date();
 
@@ -40,7 +40,7 @@ module.exports.mail = (json, newOriginFile) => {
   
   const _data = {
     data: json.slice(0, 5),
-    newOriginFile: 'https://github.com/iv-web/ivweb-weekly/blob/master/weekly/2016/' + newOriginFile.split(/[\/\\]/).pop() + '.md'
+    newOriginFile: 'https://github.com/iv-web/ivweb-weekly/blob/master/weekly/2016/' + github_filename  + '.md'
   }
 
   return new Promise((resolve, reject) => {
