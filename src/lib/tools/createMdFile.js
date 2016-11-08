@@ -100,11 +100,9 @@ exports.createMenu = (basePath, weekNo, year) => {
      console.log(item)
 
      const json = local.getObj(path.resolve(rssPath, item));
-     console.log(json.splice(0, 5))
      container = container.concat(json.splice(0, 5))
    }
  })
-
 
   container = container.sort((a, b) => {
 
@@ -120,6 +118,7 @@ exports.createMenu = (basePath, weekNo, year) => {
   })
 
   container = container.splice(0, 10)
+  console.log(container)
 
   // 把这周的数据合并到总的文件中
   const menuFilePath = path.resolve(rssPath, 'weekly_menu');
