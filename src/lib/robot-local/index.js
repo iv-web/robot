@@ -10,7 +10,8 @@ const path = require('path')
 module.exports = {
   save: _save,
   read: _read,
-  diff: _diff
+  diff: _diff,
+  getObj: getObj
 }
 
 function _save(filename, string) {
@@ -36,6 +37,20 @@ function _read(filename) {
   return file;
 }
 
+function getObj(filename) {
+  var r;
+  try {
+
+    console.log('start JSON.parse ..')
+    r = JSON.parse(_read(filename) || '[]');
+  } catch(e) {
+    console.log('JSON.parse error')
+    _save(filename, '');
+    r = [];
+  }
+  return r;
+}
+
 function _diff(originfile, addfile) {
 
   var add = getNew(addfile)
@@ -43,19 +58,6 @@ function _diff(originfile, addfile) {
   console.log(`diff originfile and ${addfile} success ....`)
 
 
-  function getObj(filename) {
-    var r;
-    try {
-
-      console.log('start JSON.parse ..')
-      r = JSON.parse(_read(filename) || '[]');
-    } catch(e) {
-      console.log('JSON.parse error')
-      _save(filename, '');
-      r = [];
-    }
-    return r;
-  }
   function getNew(filename) {
     let arr = [], obj, titlesStr, titlesObj, newAdd = [];
     let titlesPath = path.resolve(global.ServerPath, '../db/rss/titles');

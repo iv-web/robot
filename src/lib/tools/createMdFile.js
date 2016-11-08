@@ -1,3 +1,5 @@
+'use strict';
+const local = require('../robot-local')
 const fs = require('fs')
 const path = require('path')
 
@@ -9,21 +11,41 @@ exports.create = (filename, createPath, github_filename) => {
 		 return;
 	 }
 
-	 var fn = filename.split(/[\\/]/).pop();
+	 let fn = filename.split(/[\\/]/).pop();
 
-   var p ;
+   let p ;
    if (createPath) {
-     p = createPath + '/' + fn + '.md';
+     p = path.resolve(global.ServerPath , createPath + '/' + fn + '.md');
    } else {
-	   p = global.ServerPath + '/lib/robot-github/__git_path_ivwebweekly_ignore/weekly/2016/' + github_filename + '.md';
+	   p = path.resolve(global.ServerPath , './lib/robot-github/__git_path_ivwebweekly_ignore/weekly/2016/' + github_filename + '.md');
+   }
+   
+   // 判断目录是不是存在
+   let arr = p.split(path.sep);
+   
+   arr.pop();
+   let path_week = path.resolve(arr.join(path.sep));
+   arr.pop();
+   let path_year = path.resolve(arr.join(path.sep));
+
+   try {
+     fs.statSync(path_year)
+   } catch(e) {
+     fs.mkdirSync(path_year);
    }
 
-   p = path.resolve(p)
-	 console.log(p);
-   
-   var obj = JSON.parse(data);
+   try {
+     fs.statSync(path_week)
+   } catch(e) {
+     fs.mkdirSync(path_week);
+   }
 
-   var mdArr = [], menu = ['## 文章索引'], _index;
+
+
+   let obj = JSON.parse(data);
+
+   let _href;
+   let mdArr = [], menu = ['## 文章索引'], _index;
    
    obj.forEach((item, index) => {
 
@@ -41,7 +63,7 @@ exports.create = (filename, createPath, github_filename) => {
 
    menu = menu.join('\n')
 
-   var mdStr = mdArr.join('\n')
+   let mdStr = mdArr.join('\n')
 
 	 fs.writeFile(p, menu + mdStr, (err, data) => {
 
@@ -50,8 +72,93 @@ exports.create = (filename, createPath, github_filename) => {
 			 return;
 		 }
 
-		 console.log('file copy success ....')
+		 console.log('github file copy success ....')
 	 })
  })	
+ 
+ 
+ 
+
+}
+
+exports.createMenu = (basePath, weekNo, year) => {
+  if (!basePath) {
+     basePath = global.ServerPath;
+  }
+  const rssPath = path.resolve(basePath, '../db/rss/');
+
+ console.log(rssPath)
+ 
+ const files = fs.readdirSync(rssPath);
+
+ console.log(files);
+ 
+ let container = [];
+
+ files.forEach(item => {
+   if (item.split('-').pop() == weekNo + '') {
+     console.log(item)
+
+     const json = local.getObj(path.resolve(rssPath, item));
+     console.log(json.splice(0, 5))
+     container = container.concat(json.splice(0, 5))
+   }
+ })
+
+
+  container = container.sort((a, b) => {
+
+		let aw = a.weight;
+		let bw = b.weight;
+		if (aw > bw) {
+			return -1;
+		} else if (aw < bw) {
+			return 1;
+		} else {
+			return 0;
+		}
+  })
+
+  container = container.splice(0, 10)
+
+  // 把这周的数据合并到总的文件中
+  const menuFilePath = path.resolve(rssPath, 'weekly_menu');
+  try {
+    fs.statSync(menuFilePath);
+  } catch(e) {
+    local.save(menuFilePath, '{}')
+  }
+  let weeklyMenu = local.getObj(menuFilePath);
+
+  weeklyMenu[weekNo] = container;
+
+  local.save(menuFilePath, weeklyMenu)
+
+  console.log(weeklyMenu);
+  
+
+  let menu = [];
+  menu.push('# WEEKLY LIST ')
+
+  for (let i = weekNo; i > 0; i --) {
+     let item = weeklyMenu[i];
+     if (!item) continue;
+     menu.push(`## 第${i}周文章列表`);
+     item.forEach((item, index) => {
+       menu.push(`${index+1}. [${item.title}](${item.link})`)
+     })
+     menu.push(`[查看更多](https://github.com/iv-web/ivweb-weekly/blob/master/weekly/${year}/week_${weekNo}/)`)
+  }
+
+  console.log(menu.join('       \r\n'))
+
+
+  console.log(global.ServerPath);
+	const readmePath = path.resolve(basePath, `./lib/robot-github/__git_path_ivwebweekly_ignore/weekly/README.md`);
+  console.log(readmePath);
+
+  local.save(readmePath, menu.join('       \r\n'));
+  console.log('create readme md file success ....')
+
 
 }

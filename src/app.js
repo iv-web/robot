@@ -1,4 +1,5 @@
 
+'use strict';
 process.env.TZ = 'Asia/Shanghai';
 
 
@@ -21,13 +22,14 @@ var done_arr = [];
 
 const targetSites = conf.get('rss_sites');
 
-
-
-const d = new Date().toISOString().replace(/\D/g, '-').slice(0, 19);
-const newOriginFile = origin_file + '-' + d;
+const date = new Date();
+const weekNo = getWeekNo(date); // 获得以第几周为名字的子文件夹
+const dirname = 'week_' + weekNo
+let d = new Date(date.getFullYear(), date.getMonth(), date.getDate(), date.getHours(), date.getMinutes(), date.getSeconds()).toISOString().split(/\D/).splice(0, 6);
+d.push(weekNo + '');
+const newOriginFile = origin_file + '-' + d.join('-');
 // IVWEB WEEKLY-20161102.md
-makeWeekDir(d);
-const github_filename = 'IVWEB_WEEKL'+ '-' + d.replace(/\-/g, '').slice(0, 8);
+const github_filename = dirname + '/IVWEB_WEEKL'+ '-' + d.slice(0, 3).join('');
 
 
 function start () {
@@ -112,16 +114,18 @@ function start () {
       console.log(err)
     });
   }
+
   function end() {
     console.log('copy file ....')
-	  var newHtmlFile = mail_file.replace('.html', ('-' + d + '.html'));
+	  var newHtmlFile = mail_file.replace('.html', ('-' + d.join('-') + '.html'));
     try {
       fs.renameSync(origin_file, newOriginFile);
       fs.renameSync(mail_file, newHtmlFile)
       fs.writeFileSync(path.resolve(origin_file), '')
-      console.log('copy file success'); 
-
+      console.log('copy file success ....'); 
 			robot_copy_github.create(newOriginFile, null, github_filename);
+      console.log('create github file success ....')
+      robot_copy_github.createMenu(null, weekNo, date.getFullYear());
     } catch(e) {
       console.log(e);
     }
@@ -130,7 +134,21 @@ function start () {
 
 }
 
-function makeWeekDir(d) {
+function getWeekNo(d) {
+
+  // Copy date so don't modify original
+  d = new Date(+d);
+  d.setHours(0,0,0,0);
+  // Set to nearest Thursday: current date + 4 - current day number
+  // Make Sunday's day number 7
+  d.setDate(d.getDate() + 4 - (d.getDay()||7));
+  // Get first day of year
+  var yearStart = new Date(d.getFullYear(),0,1);
+  // Calculate full weeks to nearest Thursday
+  var weekNo = Math.ceil(( ( (d - yearStart) / 86400000) + 1)/7);
+  // Return array of year and week number
+
+  return weekNo+1;
 
 }
 
