@@ -50,7 +50,7 @@ exports.create = (filename, createPath, github_filename) => {
    obj.forEach((item, index) => {
 
      _index = index + 1; 
-     _href = item.title.replace(/(\u3002|\uFF1F|\uFF01|\uFF0C|\u3001|\uFF1B|\uFF1A|\u300C|\u300D|\u300E|\u300F|\u2018|\u2019|\u201C|\u201D|\uFF08|\uFF09|\u3014|\u3015|\u3010|\u3011|\u2014|\u2026|\u2013|\uFF0E|\u300A|\u300B|\u3008|\u3009|,|\.|\?|'|"|\$|\%|\*|\(|\))/g, '').replace(/\s+/g, '-').toLowerCase();
+     _href = item.title.replace(/(\u3002|\uFF1F|\uFF01|\uFF0C|\u3001|\uFF1B|\uFF1A|\u300C|\u300D|\u300E|\u300F|\u2018|\u2019|\u201C|\u201D|\uFF08|\uFF09|\u3014|\u3015|\u3010|\u3011|\u2014|\u2026|\u2013|\uFF0E|\u300A|\u300B|\u3008|\u3009|,|\.|\?|'|"|\$|\%|\*|\(|\)|\[|\])/g, '').replace(/\s+/g, '-').toLowerCase();
 
      menu.push(_index + '、 <a href="#' + _index + _href + '" >' + item.title + '</a><br/>');
 
