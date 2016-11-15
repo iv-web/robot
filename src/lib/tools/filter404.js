@@ -64,7 +64,7 @@ function getHead(url, index) {
   });
 }
 
- test();
+ //test();
 
 function test() {
   // getHead('https://www.h5jun.com/post/what-does-a-startup-cto-actually-do.html');
