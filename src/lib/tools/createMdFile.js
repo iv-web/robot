@@ -146,7 +146,9 @@ exports.createMenu = (basePath, weekNo, year) => {
      item.forEach((item, index) => {
        menu.push(`${index+1}. [${item.title}](${item.link})`)
      })
-     menu.push(`[查看更多](https://github.com/iv-web/ivweb-weekly/blob/master/weekly/${year}/week_${weekNo}/)`)
+     menu.push(`*[查看更多](https://github.com/iv-web/ivweb-weekly/blob/master/weekly/${year}/week_${weekNo}/)*`);
+     menu.push('\r\n');
+
   }
 
   console.log(menu.join('       \r\n'))

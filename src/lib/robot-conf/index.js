@@ -16,7 +16,10 @@ const EXAMPLE_CONF_JSON = {
   mail_cc: [],
   rss_sites: [],
   rss_site_timeout: '',
-  backup: ''
+  backup: '',
+  regexp_and_sites: [],
+  group_client_mail_to: [],
+  group_client_key: []
 }
 
 module.exports = {

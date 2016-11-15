@@ -78,24 +78,31 @@ function start () {
   
   done.then(() => {
     console.log('all file load success. ')
-    merger()
-    send_mail();
+    merger().then(() => {
+      send_mail();
+    })
     
   })
   
-  function merger() {
+  function merger(callback) {
     debugger;
     console.log('done_arr length: ' + done_arr.length)
     done_arr.forEach(item => {
       local.diff(origin_file, path.resolve(tmp_db_path, String(item)));
     })
 
-    console.log('all file merger succcess.')
+    console.log('all file merger success.')
+
+    return filter404(origin_file);
+    
   }
+
 
   function send_mail() {
     var str = local.read(origin_file);
     var json = JSON.parse(str);
+
+    // 按照关键字排序
 	  json = robot_sort.sort(json);
 		process.nextTick(() => {
 			local.save(origin_file, json);
