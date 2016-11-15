@@ -11,6 +11,7 @@ const parse = require(__dirname + '/lib/robot-parse-rss')
 const mail = require(__dirname + '/lib/robot-mail')
 const robot_sort = require(__dirname + '/lib/tools/sort.js')
 const robot_copy_github = require(__dirname + '/lib/tools/createMdFile.js')
+const robot_filter404 = require(__dirname + '/lib/tools/filter404.js')
 const conf = require(__dirname + '/lib/robot-conf')
 const fs = require('fs');
 
@@ -85,7 +86,7 @@ function start () {
   })
   
   function merger(callback) {
-    debugger;
+    // debugger;
     console.log('done_arr length: ' + done_arr.length)
     done_arr.forEach(item => {
       local.diff(origin_file, path.resolve(tmp_db_path, String(item)));
@@ -93,7 +94,7 @@ function start () {
 
     console.log('all file merger success.')
 
-    return filter404(origin_file);
+    return robot_filter404.filter(origin_file);
     
   }
 
