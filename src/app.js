@@ -140,6 +140,9 @@ function start () {
 			robot_copy_github.create(newOriginFile, null, github_filename);
       console.log('create github file success ....')
       robot_copy_github.createMenu(null, weekNo, date.getFullYear());
+
+      // 客户端逻辑
+      plugin.client.handle(newOriginFile);
     } catch(e) {
       console.log(e);
     }
