@@ -5,6 +5,7 @@ process.env.TZ = 'Asia/Shanghai';
 
 global.ServerPath = __dirname;
 
+const os = require('os');
 const path = require('path')
 const local = require(__dirname + '/lib/robot-local')
 const parse = require(__dirname + '/lib/robot-parse-rss')
@@ -24,9 +25,14 @@ var done_arr = [];
 const targetSites = conf.get('rss_sites');
 
 const date = new Date();
-const weekNo = getWeekNo(date); // 获得以第几周为名字的子文件夹
+let hours = date.getHours();
+if (os.platform() === 'linux') {
+  hours += 8;
+}
+const localDate = new Date(date.getFullYear(), date.getMonth(), date.getDate(), hours, date.getMinutes(), date.getSeconds());
+let d = localDate.toISOString().split(/\D/).splice(0, 6);
+const weekNo = getWeekNo(localDate); // 获得以第几周为名字的子文件夹
 const dirname = 'week_' + weekNo
-let d = new Date(date.getFullYear(), date.getMonth(), date.getDate(), date.getHours(), date.getMinutes(), date.getSeconds()).toISOString().split(/\D/).splice(0, 6);
 d.push(weekNo + '');
 const newOriginFile = origin_file + '-' + d.join('-');
 // IVWEB WEEKLY-20161102.md
@@ -36,7 +42,7 @@ const github_filename = dirname + '/IVWEB_WEEKL'+ '-' + d.slice(0, 3).join('');
 function start () {
 
   console.log('robot starting...');
-  console.log(new Date());
+  console.log(localDate);
   //return;
   
   try {
