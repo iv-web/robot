@@ -3,34 +3,48 @@
 'use strict';
 
 const co = require('co');
+const Promise = require('bluebird');
+const Conf = require('../robot-conf');
+const local = require('../robot-local');
+const Mail = require('../robot-mail');
+const MdTools = require('./createMdFile.js');
 
-exports.client = {
-  handle: (originFile) => {
+exports.clientHandle = (originFile, github_filename, testPath, optTitle) => {
 
-    this.origin = originFile;
-    const self = this;
+  //this.origin = originFile;
+  console.log('start plugin handle ....')
 
-    co(function *() {
+  const mailTo = Conf.get('group_client_mail_to');
 
-      yield self.sort();
+  co(function *() {
 
-      yield self.mail();
+    let arr = yield sort(originFile);
 
-      yield self.createMdFile();
+    const mailstr = yield mail(arr, github_filename, optTitle, mailTo);
 
-    }).catch((err) => {
-      throw err;
+    yield createMdFile(arr, github_filename, testPath);
+
+  }).catch((err) => {
+    console.log(err)
+  })
+
+}
+
+function sort(origin) {
+  return new Promise((resolve, reject) => {
+    let arr = local.getObj(origin);
+
+    arr.map(item => {
+      item.weight = 0;
+      return item;
     })
 
-  },
-  sort: () => {
-    let arr = local.getObj(this.origin);
     const keySet = Conf.get('group_client_key');
     arr.forEach(item => {
       keySet.forEach(item2 => {
         if (item.title.indexOf(item2) >= 0) {
           if(typeof item.weight === 'undefined') item.weight = 0;
-          item.weidht += 1;
+          item.weight += 1;
         }
       })
     })
@@ -47,9 +61,18 @@ exports.client = {
       }
     })
 
-  },
-  mail: () => {
+    resolve(arr);
+  })
 
-    Mail.mail(arr);
-  }
 }
+
+function mail(p, github_filename, optTitle, mailTo) {
+  return Mail.mail(p, github_filename, optTitle, mailTo);
+}
+
+function createMdFile(arr, github_filename, testPath) {
+  return new Promise((resolve, reject) => {
+    MdTools.create(arr, testPath, github_filename);
+  })
+}
+

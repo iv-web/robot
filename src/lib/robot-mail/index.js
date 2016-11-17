@@ -29,13 +29,21 @@ let mailOptions = {
 };
 
 
-module.exports.mail = (json, newOriginFile, github_filename) => {
+module.exports.mail = (json, github_filename, optTitle, mailTo) => {
 
   const d = new Date();
 
   mailOptions.to = _to;
+
+  if (mailTo) {
+    mailOptions.to = mailTo;
+  }
+
   mailOptions.cc = _cc;
-  mailOptions.subject = `【IVWEB WEEKLY】${util.format('%s-%s-%s', d.getFullYear(), d.getMonth()+1, d.getDate())} 最新文章`;
+  if (!optTitle) {
+    optTitle = '';
+  }
+  mailOptions.subject = `【IVWEB WEEKLY】${optTitle}${util.format('%s-%s-%s', d.getFullYear(), d.getMonth()+1, d.getDate())} 最新文章`;
 
   
   const _data = {

@@ -15,6 +15,7 @@ const robot_copy_github = require(__dirname + '/lib/tools/createMdFile.js')
 const robot_filter404 = require(__dirname + '/lib/tools/filter404.js')
 const conf = require(__dirname + '/lib/robot-conf')
 const fs = require('fs');
+const plugin = require(__dirname + '/lib/tools/plugins.js')
 
 const tmp_db_path = path.resolve(__dirname, '../db/rss');
 const origin_file = path.resolve(__dirname, '../db/rss/origin');
@@ -119,7 +120,7 @@ function start () {
     if (json.length <= 0) {
       return;
     }
-    mail.mail(json, newOriginFile, github_filename).then(str => {
+    mail.mail(json, github_filename).then(str => {
       local.save(mail_file, str)
       console.log('send mail success .....')
       end();
@@ -142,7 +143,7 @@ function start () {
       robot_copy_github.createMenu(null, weekNo, date.getFullYear());
 
       // 客户端逻辑
-      plugin.client.handle(newOriginFile);
+      plugin.clientHandle(newOriginFile, github_filename + '-CLIENT', null, '【终端】');
     } catch(e) {
       console.log(e);
     }

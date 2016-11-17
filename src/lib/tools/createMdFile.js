@@ -5,21 +5,13 @@ const path = require('path')
 
 exports.create = (filename, createPath, github_filename) => {
 
- fs.readFile(filename, 'utf8', (err, data) => {
-	 if (err) {
-		 throw err;
-		 return;
-	 }
+  let p ;
+  if (createPath) {
+   p = path.resolve(createPath + '/' + github_filename + '.md');
+  } else {
+   p = path.resolve(global.ServerPath , './lib/robot-github/__git_path_ivwebweekly_ignore/weekly/2016/' + github_filename + '.md');
+  }
 
-	 let fn = filename.split(/[\\/]/).pop();
-
-   let p ;
-   if (createPath) {
-     p = path.resolve(global.ServerPath , createPath + '/' + fn + '.md');
-   } else {
-	   p = path.resolve(global.ServerPath , './lib/robot-github/__git_path_ivwebweekly_ignore/weekly/2016/' + github_filename + '.md');
-   }
-   
    // 判断目录是不是存在
    let arr = p.split(path.sep);
    
@@ -40,9 +32,18 @@ exports.create = (filename, createPath, github_filename) => {
      fs.mkdirSync(path_week);
    }
 
+   if (typeof filename == 'string') {
+   
+     let obj = local.getObj(filename);
 
+      _create(obj, p);
 
-   let obj = JSON.parse(data);
+   } else {
+      _create(filename, p);
+   } 
+ 
+ 
+ function _create(obj, p) {
 
    let _href;
    let mdArr = [], menu = ['## 文章索引'], _index;
@@ -74,9 +75,7 @@ exports.create = (filename, createPath, github_filename) => {
 
 		 console.log('github file copy success ....')
 	 })
- })	
- 
- 
+ }
  
 
 }
