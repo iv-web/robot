@@ -53,38 +53,51 @@ function _run(port) {
       }
     }
 
-    var data, op, origin, news;
-    data = querystring.parse(url.parse(req.url).query);
-    op = data.op
+    var clientData, op, origin, news;
 
-    if (op == 'submit') {
-      console.log('submit data ...')
-      for (var i in conf_json) {
-        origin = conf_json[i];
-        if (!data[i]) continue;
-        news = data[i].replace(/\s/g, '');
-        if (typeof origin == 'object') {
-          conf_json[i] = news.split(',');
-        } else {
-          conf_json[i] = news;
+    // post 请求处理
+    if (req.method === 'POST') {
+      req.on('data', (data) => {
+        clientData = querystring.parse(data.toString());
+        op = clientData.op
+        console.log(clientData);
+
+        // 处理提交的数据
+        console.log('submit data ...')
+        for (var i in conf_json) {
+          origin = conf_json[i];
+          if (!clientData[i]) continue;
+          news = clientData[i].replace(/\s/g, '');
+          if (typeof origin == 'object') {
+            conf_json[i] = news.split(',');
+          } else {
+            conf_json[i] = news;
+          }
         }
-      }
 
-      fs.writeFileSync(CONFFILE, JSON.stringify(conf_json), 'utf8');
+        fs.writeFileSync(CONFFILE, JSON.stringify(conf_json), 'utf8');
+
+        render(tpl, conf_json, res);
+      })
+    } else {
+      render(tpl, conf_json, res);
     }
 
-    ejs.renderFile(tpl, {
-      data: conf_json,
-      url: '/'
-    }, {}, (err, str) => {
-      if (err) {
-        console.log(err);
-        // reject(err);
-      } else {
-        res.end(str);
-      }
 
-    })
+    function render(tpl, conf_json, res) {
+      ejs.renderFile(tpl, {
+        data: conf_json,
+        url: '/'
+      }, {}, (err, str) => {
+        if (err) {
+          console.log(err);
+          // reject(err);
+        } else {
+          res.end(str);
+        }
+
+      })
+    }
 
 
   }).listen(port);
