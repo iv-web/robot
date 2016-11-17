@@ -52,7 +52,10 @@ function getHead(url, index) {
       _http = https;
       options.port = 443;
     }
-    var req = _http.request(options, (res) => {
+
+    var req;
+
+    req = _http.request(options, (res) => {
       console.log(`url: ${url}; code: ${res.statusCode}`);
       if (res.statusCode === 200) {
         resolve({active: true, index: index});
@@ -60,7 +63,12 @@ function getHead(url, index) {
         resolve({active: false, index: index});
       }
     })
+    req.on('error', (e) => {
+      console.error(e);
+      resolve({active: false, index: index});
+    }) 
     req.end();
+
   });
 }
 

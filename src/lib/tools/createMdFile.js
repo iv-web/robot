@@ -86,17 +86,17 @@ exports.createMenu = (basePath, weekNo, year) => {
   }
   const rssPath = path.resolve(basePath, '../db/rss/');
 
- console.log(rssPath)
+ // console.log(rssPath)
  
  const files = fs.readdirSync(rssPath);
 
- console.log(files);
+ // console.log(files);
  
  let container = [];
 
  files.forEach(item => {
    if (item.split('-').pop() == weekNo + '') {
-     console.log(item)
+     // console.log(item)
 
      const json = local.getObj(path.resolve(rssPath, item));
      container = container.concat(json.splice(0, 5))
@@ -117,7 +117,7 @@ exports.createMenu = (basePath, weekNo, year) => {
   })
 
   container = container.splice(0, 10)
-  console.log(container)
+  // console.log(container)
 
   // 把这周的数据合并到总的文件中
   const menuFilePath = path.resolve(rssPath, 'weekly_menu');

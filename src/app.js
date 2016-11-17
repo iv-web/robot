@@ -2,7 +2,6 @@
 'use strict';
 process.env.TZ = 'Asia/Shanghai';
 
-
 global.ServerPath = __dirname;
 
 const os = require('os');

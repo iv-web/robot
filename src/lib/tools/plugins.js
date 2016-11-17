@@ -20,6 +20,9 @@ exports.clientHandle = (originFile, github_filename, testPath, optTitle) => {
 
     let arr = yield sort(originFile);
 
+    arr.forEach(item => {
+      console.log(`title: ${item.title}, weight: ${item.weight}`);
+    })
     const mailstr = yield mail(arr, github_filename, optTitle, mailTo);
 
     yield createMdFile(arr, github_filename, testPath);
@@ -42,10 +45,18 @@ function sort(origin) {
     const keySet = Conf.get('group_client_key');
     arr.forEach(item => {
       keySet.forEach(item2 => {
-        if (item.title.indexOf(item2) >= 0) {
-          if(typeof item.weight === 'undefined') item.weight = 0;
-          item.weight += 1;
+        let _reg, match, weight = 0, times = 0;
+        let key = item2.split(':')[0];
+        let key_weight = item2.split(':')[1];
+
+        _reg = new RegExp(key, 'ig');
+        match = item.title.match(_reg);
+        if (match) {
+          times = match.length;
         }
+        weight = times * key_weight;
+
+        item.weight = item.weight + weight;
       })
     })
 
