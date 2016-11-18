@@ -67,7 +67,8 @@ function _run(port) {
         for (var i in conf_json) {
           origin = conf_json[i];
           if (!clientData[i]) continue;
-          news = clientData[i].replace(/\s/g, '');
+
+          news = clientData[i]; //.replace(/\s/g, '');
           if (typeof origin == 'object') {
             conf_json[i] = news.split(',');
           } else {
@@ -108,6 +109,8 @@ function _run(port) {
 function _get(name) {
   let conf = fs.readFileSync(CONFFILE, "utf8");
   conf = conf.replace(/\s/g, "");
+  conf = conf.replace(/\\r\\n/g, "");
+  // console.log(conf)
   conf = JSON.parse(conf);
   
   for (let i in conf) {
