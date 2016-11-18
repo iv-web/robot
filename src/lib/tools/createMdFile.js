@@ -132,7 +132,7 @@ exports.createMenu = (basePath, weekNo, year) => {
 
   local.save(menuFilePath, weeklyMenu)
 
-  console.log(weeklyMenu);
+  // console.log(weeklyMenu);
   
 
   let menu = [];
