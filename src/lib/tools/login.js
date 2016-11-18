@@ -2,16 +2,15 @@
 
 
 'use strict';
+const cookie = require('../robot-cookie');
 
 exports.isLogin = isLoagin;
 
 
 function isLoagin(req) {
 
-  console.log(req.headers);
-  return;
 
-  const his = reg.getCookie('robot_history');
+  const his = cookie(req, 'robot_history');
 
   const his_arr = his.split('|')
 
@@ -19,8 +18,8 @@ function isLoagin(req) {
     return false;
   }
 
-  const username = passmd5.split('|')[1];
-  const passmd5 = passmd5.split('|')[0];
+  const username = his_arr.split('|')[1];
+  const his_arr = his_arr.split('|')[0];
 
   const soat = getSoat(username);
 
