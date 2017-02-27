@@ -9,7 +9,7 @@ exports.create = (filename, createPath, github_filename) => {
   if (createPath) {
    p = path.resolve(createPath + '/' + github_filename + '.md');
   } else {
-   p = path.resolve(global.ServerPath , './lib/robot-github/__git_path_ivwebweekly_ignore/weekly/2016/' + github_filename + '.md');
+   p = path.resolve(global.ServerPath , './lib/robot-github/__git_path_ivwebweekly_ignore/weekly/' + (new Date().getFullYear()) + '/' + github_filename + '.md');
   }
 
    // 判断目录是不是存在

@@ -48,7 +48,7 @@ module.exports.mail = (json, github_filename, optTitle, mailTo) => {
   
   const _data = {
     data: json.slice(0, 5),
-    newOriginFile: 'https://github.com/iv-web/ivweb-weekly/blob/master/weekly/2016/' + github_filename  + '.md'
+    newOriginFile: 'https://github.com/iv-web/ivweb-weekly/blob/master/weekly/' + (new Date().getFullYear()) + '/' + github_filename  + '.md'
   }
 
   return new Promise((resolve, reject) => {

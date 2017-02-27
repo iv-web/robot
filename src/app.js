@@ -129,6 +129,9 @@ function start () {
     });
   }
 
+  /**
+   * 同步到github
+   */
   function end() {
     console.log('copy file ....')
 	  var newHtmlFile = mail_file.replace('.html', ('-' + d.join('-') + '.html'));
